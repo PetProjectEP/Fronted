@@ -1,0 +1,42 @@
+:root {
+  --main-bg-color: rgb(254, 250, 224);
+  --confirm-color: rgb(169, 179, 136);
+}
+
+a {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+}
+
+button {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  border-radius: 20%;
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  transition: 0.7;
+  filter: brightness(85%);
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  background-color: var(--main-bg-color);
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transparent {
+  background-color: rgba(0, 0, 0, 0);
+}
