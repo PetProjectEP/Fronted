@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from 'vue'
-  const apiUrl = 'http://127.0.0.1:3000/users'
+  const apiUrl = 'http://127.0.0.1:3001/posts'
   
   const temp = ref('No data yet')
   fetch(apiUrl).then((response) => {
