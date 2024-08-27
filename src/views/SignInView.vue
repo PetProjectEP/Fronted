@@ -8,6 +8,8 @@
   const signInWindow = ref(null)
   onMounted(() => signInWindow.value?.scrollIntoView({ behavior: 'smooth' }))
 
+  const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
+
   function submitData() {
     const data = JSON.stringify({
       user: {
@@ -16,8 +18,7 @@
       }
     })
 
-    const createSessionUrl = 'http://127.0.0.1:3000/sessions'
-    fetch(createSessionUrl, {
+    fetch(userServiceSessionsUrl, {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },

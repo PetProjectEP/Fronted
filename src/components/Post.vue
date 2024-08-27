@@ -2,8 +2,6 @@
   import { ref } from 'vue';
 
   const props = defineProps(['title', 'text'])
-  // const title = ref('No title received!');
-  // const text = ref('No text received!');
 </script>
 
 <template>

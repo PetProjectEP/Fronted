@@ -5,11 +5,12 @@
   const name = ref('No name retrieved!')
   onMounted(() => getNameByToken())
 
+  const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
+  
   function logOut() {
-    const destroySessionUrl = 'http://127.0.0.1:3000/sessions/'
     let token = (document.cookie.match(/^(?:.*;)?\s*Token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]
 
-    fetch(destroySessionUrl + token, {
+    fetch(userServiceSessionsUrl + token, {
       method: 'DELETE',
       mode: 'cors'
     }).then((response) => {
@@ -30,10 +31,9 @@
   }
 
   function getNameByToken() {
-    const getNameUrl = 'http://127.0.0.1:3000/sessions/'
     let token = (document.cookie.match(/^(?:.*;)?\s*Token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]
   
-    fetch(getNameUrl + token, {
+    fetch(userServiceSessionsUrl + token, {
       method: 'GET',
       mode: 'cors'
     }).then((response) => {
@@ -68,6 +68,8 @@
     border: none;
     padding: 1em;
     background-color: var(--main-bg-color);
+    height: max-content;
+    align-self: center;
   }
 
   .name {

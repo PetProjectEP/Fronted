@@ -11,6 +11,8 @@
   const signUpWindow = ref(null)
   onMounted(() => signUpWindow.value?.scrollIntoView({ behavior: 'smooth' }))
 
+  const userServiceUrl = 'http://127.0.0.1:3000/users'
+  
   function submitData() {
     const data = JSON.stringify({
       user: {
@@ -22,8 +24,7 @@
       }
     })
 
-    const createUserUrl = 'http://127.0.0.1:3000/users'
-    fetch(createUserUrl, {
+    fetch(userServiceUrl, {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
@@ -31,7 +32,7 @@
     }).then((response) => {
       if (response.ok) {
         response.json().then((text) => console.log(text))
-        router.push('/')
+        router.go()
       }
       else if (response.status === 422) {
         response.json().then((parsedErrors) => {

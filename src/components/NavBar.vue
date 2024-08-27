@@ -29,6 +29,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.5% 1% 0%;
+    background-color: rgb(239, 236, 211);
   }
 
   .sign-in-button {
