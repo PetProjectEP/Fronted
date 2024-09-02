@@ -1,6 +1,7 @@
 <script setup>
   import router from '@/router';
   import { ref, onMounted } from "vue";
+  import { getAuthToken } from '@/common/Helpers';
 
   const name = ref('No name retrieved!')
   onMounted(() => getNameByToken())
@@ -8,7 +9,7 @@
   const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
   
   function logOut() {
-    let token = (document.cookie.match(/^(?:.*;)?\s*Token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]
+    let token = getAuthToken()
 
     fetch(userServiceSessionsUrl + token, {
       method: 'DELETE',
@@ -31,7 +32,7 @@
   }
 
   function getNameByToken() {
-    let token = (document.cookie.match(/^(?:.*;)?\s*Token\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]
+    const token = getAuthToken()
   
     fetch(userServiceSessionsUrl + token, {
       method: 'GET',
