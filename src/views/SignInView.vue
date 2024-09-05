@@ -1,44 +1,13 @@
 <script setup>
   import router from '@/router'
   import { ref, onMounted } from 'vue'
+  import { signIn } from '@/common/BackendCalls/UserServiceCalls';
 
   const nickname = ref("")
   const password = ref("")
 
   const signInWindow = ref(null)
   onMounted(() => signInWindow.value?.scrollIntoView({ behavior: 'smooth' }))
-
-  const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
-
-  function submitData() {
-    const data = JSON.stringify({
-      user: {
-        nickname: nickname.value,
-        password: password.value,
-      }
-    })
-
-    fetch(userServiceSessionsUrl, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: data
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
-          document.cookie =
-          "Token=" + json.token + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
-          router.push('/')
-        })
-      }
-      else if (response.status === 422) {
-        alert("There is no such user. Check your login and password")
-      }
-      else {
-        console.log("Oooups, something went wrong...")
-      }
-    })
-  }
 </script>
 
 <template>
@@ -50,7 +19,7 @@
           <input type="password" v-model="password" placeholder="Password..."/>
         </div>
         <div class="buttons">
-          <button class="submit-button" @click="submitData()">Sign in!</button>
+          <button class="submit-button" @click="signIn(nickname, password)">Sign in!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
         </div>
       </div>

@@ -1,46 +1,13 @@
 <script setup>
-  import { getAuthToken } from '@/common/Helpers';
-import router from '@/router'
+  import router from '@/router'
   import { ref, onMounted } from 'vue'
+  import { createPost } from '@/common/BackendCalls/PostServiceCalls';
 
   const title = ref("")
   const text = ref("")
 
   const signInWindow = ref(null)
   onMounted(() => signInWindow.value?.scrollIntoView({ behavior: 'smooth' }))
-
-  const postServiceUrl = 'http://127.0.0.1:3001/posts/'
-  
-  function submitData() {
-    const token = getAuthToken()
-
-    const data = JSON.stringify({
-      post: {
-        title: title.value,
-        text: text.value,
-        token: token
-      }
-    })
-
-    fetch(postServiceUrl, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: data
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then(() => {
-          router.push('/')
-        })
-      }
-      else if (response.status === 422) {
-        // Validations error here
-      }
-      else {
-        console.log("Oooups, something went wrong...")
-      }
-    })
-  }
 </script>
 
 <template>
@@ -52,7 +19,7 @@ import router from '@/router'
           <textarea v-model="text" placeholder="Write down your powerful thoughts..."/>
         </div>
         <div class="buttons">
-          <button class="submit-button" @click="submitData()">Polute!</button>
+          <button class="submit-button" @click="createPost(title, text)">Polute!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
         </div>
       </div>

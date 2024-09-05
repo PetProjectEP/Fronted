@@ -1,6 +1,7 @@
 <script setup>
   import router from '@/router'
   import { ref, onMounted } from 'vue'
+  import { signUp } from '@/common/BackendCalls/UserServiceCalls';
 
   const nickname = ref("")
   const name = ref("")
@@ -10,48 +11,6 @@
 
   const signUpWindow = ref(null)
   onMounted(() => signUpWindow.value?.scrollIntoView({ behavior: 'smooth' }))
-
-  const userServiceUrl = 'http://127.0.0.1:3000/users'
-  
-  function submitData() {
-    const data = JSON.stringify({
-      user: {
-        nickname: nickname.value,
-        name: name.value,
-        surname: surname.value,
-        password: password.value,
-        password_confirmation: passwordConfirmation.value
-      }
-    })
-
-    fetch(userServiceUrl, {
-      method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: data
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((text) => console.log(text))
-        router.go()
-      }
-      else if (response.status === 422) {
-        response.json().then((parsedErrors) => {
-          let errStr = ""
-          Object.values(parsedErrors).forEach(arrOfErrors => {
-            arrOfErrors.forEach(val => {
-              errStr += val + "\n"
-            })
-          });
-          alert("Following errors prevent you from signing up:\n" + errStr)
-        })
-      }
-      else {
-        console.log("Oooups, something went wrong...")
-      }
-    })
-  }
-  
-  
 </script>
 
 <template>
@@ -66,7 +25,7 @@
           <input type="password" v-model="passwordConfirmation" placeholder="Confirm your password..."/>
         </div>
         <div class="buttons">
-          <button class="submit-button" @click="submitData()">Sign up!</button>
+          <button class="submit-button" @click="signUp(nickname, name, surname, password, passwordConfirmation)">Sign up!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
         </div>
       </div>
