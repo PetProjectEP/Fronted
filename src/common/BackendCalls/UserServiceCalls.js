@@ -4,6 +4,9 @@ import { getAuthTokenCookie } from '@/common/Helpers';
 const userServiceUrl = 'http://127.0.0.1:3000/users'
 const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
 
+// Yeah-yeah refreshing entire window is a crutch and low-effective
+// but it isn't that frequent operation to screw performance hard
+
 export function logOut() {
   const token = getAuthTokenCookie()
 
@@ -14,8 +17,7 @@ export function logOut() {
     if (response.ok) {
       response.json().then((json) => {
         document.cookie = 'Token=; Max-Age=0'
-        alert('Logged out!')
-        router.go()
+        window.location.reload()
       })
     }
     else if (response.status === 422) {
@@ -58,7 +60,7 @@ export function signIn(nickname, password) {
       response.json().then((json) => {
         document.cookie =
         "Token=" + json.token + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
-        router.push('/')
+        router.push('/').then(() => { window.location.reload() })
       })
     }
     else if (response.status === 422) {
@@ -71,7 +73,6 @@ export function signIn(nickname, password) {
 }
 
 export function signUp(nickname, name, surname, password, passwordConfirmation) {
-  console.log(nickname, name, surname, password, passwordConfirmation);
   const data = JSON.stringify({
     user: {
       nickname: nickname,
@@ -89,8 +90,7 @@ export function signUp(nickname, name, surname, password, passwordConfirmation) 
     body: data
   }).then((response) => {
     if (response.ok) {
-      response.json().then((text) => console.log(text))
-      router.push('/')
+      signIn(nickname, password)
     }
     else if (response.status === 422) {
       response.json().then((parsedErrors) => {
