@@ -1,10 +1,12 @@
 <script setup>
+  const emits = defineEmits(['goBack', 'goNext'])
+  const props = defineProps(['canGoBack', 'canGoNext'])
 </script>
 
 <template>
   <div class="pagination-container">
-    <button class="prev-button"><< Back</button>
-    <button class="next-button">Give me more! >></button>
+    <button class="prev-button" v-if="canGoBack" @click="$emit('goBack')"><< Back</button>
+    <button class="next-button" v-if="canGoNext" @click="$emit('goNext')">Give me more! >></button>
   </div>
 </template>
 

@@ -2,7 +2,8 @@ import router from '@/router'
 import { getAuthTokenCookie } from '@/common/Helpers';
 
 const postServiceUrl = 'http://127.0.0.1:3001/posts/'
-const getPostsMethod = 'http://127.0.0.1:3001/get_next_five_posts'
+const getNextPostsUrl = 'http://127.0.0.1:3001/get_next_five_posts/'
+const getPrevPostsUrl = 'http://127.0.0.1:3001/get_prev_five_posts/'
   
 export function createPost(title, text) {
   const token = getAuthTokenCookie()
@@ -35,13 +36,24 @@ export function createPost(title, text) {
   })
 }
 
-export async function getPosts() {
-  let response = await fetch(getPostsMethod, 
+export async function getNextPosts(fromId = 0) {
+  let response = await fetch(getNextPostsUrl + fromId.toString(), 
   {
     method: 'GET',
     mode: 'cors'
   })
-  let posts = await response.json()
+  let data = await response.json()
 
-  return posts
+  return data
+}
+
+export async function getPrevPosts(fromId) {
+  let response = await fetch(getPrevPostsUrl + fromId.toString(), 
+  {
+    method: 'GET',
+    mode: 'cors'
+  })
+  let data = await response.json()
+
+  return data
 }
