@@ -36,15 +36,17 @@ export function createPost(title, text) {
   })
 }
 
-export async function getNextPosts(fromId = 0) {
+export async function getNextPosts(fromId = "") {
   let response = await fetch(getNextPostsUrl + fromId.toString(), 
   {
     method: 'GET',
     mode: 'cors'
   })
   let data = await response.json()
+  
+  let posts = JSON.parse(data.posts)
 
-  return data
+  return { posts: posts, haveMore: data.haveMore }
 }
 
 export async function getPrevPosts(fromId) {
@@ -55,5 +57,7 @@ export async function getPrevPosts(fromId) {
   })
   let data = await response.json()
 
-  return data
+  let posts = JSON.parse(data.posts)
+
+  return { posts: posts, haveMore: data.haveMore }
 }
