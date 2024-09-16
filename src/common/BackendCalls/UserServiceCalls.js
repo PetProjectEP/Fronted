@@ -1,8 +1,9 @@
 import router from '@/router';
+import urls from "@/common/BackendCalls/urls";
 import { getAuthTokenCookie } from '@/common/Helpers';
 
-const userServiceUrl = 'http://127.0.0.1:3000/users'
-const userServiceSessionsUrl = 'http://127.0.0.1:3000/sessions/'
+const userServiceUrl = urls.userServiceUrl
+const userServiceSessionsUrl = urls.userServiceSessionsUrl
 
 // Yeah-yeah refreshing entire window is a crutch and low-effective
 // but it isn't that frequent operation to screw performance hard

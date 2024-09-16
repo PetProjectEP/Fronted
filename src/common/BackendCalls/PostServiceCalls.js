@@ -1,9 +1,10 @@
-import router from '@/router'
+import router from '@/router';
+import urls from "@/common/BackendCalls/urls";
 import { getAuthTokenCookie } from '@/common/Helpers';
 
-const postServiceUrl = 'http://127.0.0.1:3001/posts/'
-const getNextPostsUrl = 'http://127.0.0.1:3001/get_next_five_posts/'
-const getPrevPostsUrl = 'http://127.0.0.1:3001/get_prev_five_posts/'
+const postServiceUrl = urls.postServiceUrl
+const getNextPostsUrl = urls.getNextPostsUrl
+const getPrevPostsUrl = urls.getPrevPostsUrl
   
 export function createPost(title, text) {
   const token = getAuthTokenCookie()
