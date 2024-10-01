@@ -11,7 +11,7 @@
   <header>
     <div class="navbar">
       <div class="title-area">
-        <!-- Some image here -->
+        <img src="@/assets/images/logo.png">
         <h1 class="title"> Thoughts junkyard </h1>
       </div>
       <UserBar v-if="isLoggedIn()" />
@@ -50,5 +50,16 @@
 
   .title {
     font: bold 2.5em sans-serif;
+  }
+
+  .title-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  img {
+    height: 4em;
+    margin: auto 15px auto 5px;
   }
 </style>
