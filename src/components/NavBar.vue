@@ -13,6 +13,10 @@
       <div class="title-area">
         <img src="@/assets/images/logo.png">
         <h1 class="title"> Thoughts junkyard </h1>
+        <div class="options">
+          <a class="to-feed-link nostyle" @click="router.push('/')">Feed</a>
+          <a class="to-my-posts-link nostyle" @click="router.push('/my-posts')">My posts</a>
+        </div>
       </div>
       <UserBar v-if="isLoggedIn()" />
       <div class="user-area" v-else>
@@ -28,28 +32,49 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5% 1% 0%;
+    padding: 5px;
     background-color: rgb(239, 236, 211);
   }
 
-  .sign-in-button {
-    margin: 0px 10px;
+  .options {
+    border-left: 1px solid black;
+    margin: auto 10px;
+    padding-left: 10px;
+  }
+
+  .options > a {
+    font: 1.25em sans-serif;
+    margin: auto 15px auto 0;
+    cursor: pointer;
+  }
+
+  a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  button {
     border: none;
+    margin: 0px 10px;
     height: 3em;
     padding: 1em;
+  }
+
+  .sign-in-button {   
     background-color: var(--confirm-color);
   }
 
   .sign-up-button {
-    margin: 0px 10px;
-    border: none;
-    height: 3em;
-    padding: 1em;
     background-color: var(--main-bg-color);
   }
 
   .title {
-    font: bold 2.5em sans-serif;
+    font: bold 1.25em sans-serif;
   }
 
   .title-area {
