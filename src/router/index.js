@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import MyPosts from '@/views/MyPostsView.vue';
 import SignUp from '../views/SignUpView.vue';
 import SignInView from '../views/SignInView.vue';
 import CreatePostView from '../views/CreatePostView.vue';
@@ -11,6 +12,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/my-posts',
+      name: 'myPosts',
+      component: MyPosts
     },
     {
       path: '/sign-up',

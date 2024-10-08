@@ -10,11 +10,9 @@ export function createPost(title, text) {
   const token = getAuthTokenCookie()
 
   const data = JSON.stringify({
-    post: {
       title: title,
       text: text,
       token: token
-    }
   })
 
   fetch(postServiceUrl, {
@@ -37,27 +35,33 @@ export function createPost(title, text) {
   })
 }
 
-export async function getNextPosts(fromId = "") {
-  let response = await fetch(getNextPostsUrl + fromId.toString(), 
+export async function getNextPosts({fromId = "", token = null}) {
+  let url = new URL(getNextPostsUrl + fromId.toString())
+  url.search = new URLSearchParams({token: token}).toString()
+
+  let response = await fetch(url, 
   {
     method: 'GET',
     mode: 'cors'
   })
+
   let data = await response.json()
-  
   let posts = JSON.parse(data.posts)
 
   return { posts: posts, haveMore: data.haveMore }
 }
 
-export async function getPrevPosts(fromId) {
-  let response = await fetch(getPrevPostsUrl + fromId.toString(), 
+export async function getPrevPosts({fromId, token = null}) {
+  let url = new URL(getPrevPostsUrl + fromId.toString())
+  url.search = new URLSearchParams({token: token}).toString()
+
+  let response = await fetch(url, 
   {
     method: 'GET',
     mode: 'cors'
   })
-  let data = await response.json()
 
+  let data = await response.json()
   let posts = JSON.parse(data.posts)
 
   return { posts: posts, haveMore: data.haveMore }

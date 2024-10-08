@@ -5,18 +5,21 @@
   import Pagination from '@/components/Pagination.vue';
   import { getPrevPosts, getNextPosts } from '@/common/BackendCalls/PostServiceCalls';
 
+  const props = defineProps(['token'])
+  console.log(props.token)
+  
   const canGoBack = ref(false)
   const canGoNext = ref(false)
   const posts = ref([])
 
-  getNextPosts().then((data) => {
+  getNextPosts({token: props.token}).then((data) => {
     posts.value = data.posts
     canGoNext.value = data.haveMore
   })
 
   function goNext() {
     let minPostId = posts.value[posts.value.length - 1].id
-    getNextPosts(minPostId - 1).then((data) => {
+    getNextPosts({fromId: minPostId - 1, token: props.token}).then((data) => {
       posts.value = data.posts
 
       canGoBack.value = true
@@ -26,7 +29,7 @@
 
   function goBack() {
     let maxPostId = posts.value[0].id
-    getPrevPosts(maxPostId + 1).then((data) => {
+    getPrevPosts({fromId: maxPostId + 1, token: props.token}).then((data) => {
       posts.value = data.posts
 
       canGoBack.value = data.haveMore
