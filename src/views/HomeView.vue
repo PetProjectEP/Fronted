@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <Feed />
+  <Feed :token="null"/>
 </template>
 
 <style>

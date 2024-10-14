@@ -61,6 +61,8 @@ export function signIn(nickname, password) {
       response.json().then((json) => {
         document.cookie =
         "Token=" + json.token + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
+        document.cookie =
+        "User_id=" + json.user_id + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
         router.push('/').then(() => { window.location.reload() })
       })
     }

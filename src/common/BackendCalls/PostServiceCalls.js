@@ -35,6 +35,21 @@ export function createPost(title, text) {
   })
 }
 
+export async function deletePost(postId) {
+  const token = getAuthTokenCookie()
+
+  let url = new URL(postServiceUrl + postId.toString())
+  url.search = new URLSearchParams({token: token}).toString()
+
+  let response = await fetch(url, 
+  {
+    method: 'DELETE',
+    mode: 'cors'
+  })
+  
+  return response.status === 204
+}
+
 export async function getNextPosts({fromId = "", token = null}) {
   let url = new URL(getNextPostsUrl + fromId.toString())
   url.search = new URLSearchParams({token: token}).toString()

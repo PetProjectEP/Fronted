@@ -40,7 +40,7 @@
     height: 70%;
     width: 40%;
     background-color: rgb(254, 250, 224);
-    display: flexs;
+    display: flex;
   }
 
   .content {

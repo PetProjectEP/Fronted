@@ -6,7 +6,6 @@
   import { getPrevPosts, getNextPosts } from '@/common/BackendCalls/PostServiceCalls';
 
   const props = defineProps(['token'])
-  console.log(props.token)
   
   const canGoBack = ref(false)
   const canGoNext = ref(false)
@@ -17,9 +16,19 @@
     canGoNext.value = data.haveMore
   })
 
+  function refresh() {
+    let newestPostId = posts.value[0].id
+    getNextPosts({fromId: newestPostId, token: props.token}).then((data) => {
+      posts.value = data.posts
+
+      canGoBack.value = true
+      canGoNext.value = data.haveMore
+    })
+  }
+
   function goNext() {
-    let minPostId = posts.value[posts.value.length - 1].id
-    getNextPosts({fromId: minPostId - 1, token: props.token}).then((data) => {
+    let oldestPostId = posts.value[posts.value.length - 1].id
+    getNextPosts({fromId: oldestPostId - 1, token: props.token}).then((data) => {
       posts.value = data.posts
 
       canGoBack.value = true
@@ -28,8 +37,8 @@
   }
 
   function goBack() {
-    let maxPostId = posts.value[0].id
-    getPrevPosts({fromId: maxPostId + 1, token: props.token}).then((data) => {
+    let newestPostId = posts.value[0].id
+    getPrevPosts({fromId: newestPostId + 1, token: props.token}).then((data) => {
       posts.value = data.posts
 
       canGoBack.value = data.haveMore
@@ -41,7 +50,14 @@
 <template>
   <div class="feed-wrapper">
     <div class="posts-grid">
-      <Post v-if="posts.length > 0" v-for="(post) in posts" :title="post.title" :text="post.text" :key="post.id" />
+      <Post v-if="posts.length > 0" v-for="(post) in posts" 
+        :title="post.title" 
+        :text="post.text" 
+        :user_id="post.user_id" 
+        :id="post.id" 
+        :key="post.id"
+        @post-deleted="refresh"
+      />
       <img v-else src="@/assets/images/no-posts.png"/>
     </div>
     <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
