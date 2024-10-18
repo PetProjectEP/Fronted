@@ -1,6 +1,7 @@
 :root {
   --main-bg-color: rgb(254, 250, 224);
   --confirm-color: rgb(169, 179, 136);
+  --alert-color: rgba(185, 148, 112, 0.649);
 }
 
 a {

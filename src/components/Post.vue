@@ -1,22 +1,21 @@
 <script setup>
-  import { getUserIdCookie } from '@/common/Helpers';
-  import { deletePost } from '@/common/BackendCalls/PostServiceCalls';
   import { ref } from 'vue';
+  import { getUserIdCookie } from '@/common/Helpers';
+  import DeleteConfirmation from '@/components/DeleteConfirmation.vue'
 
   const props = defineProps(['title', 'text', 'user_id', 'id'])
   const emit = defineEmits(['postDeleted'])
 
   const showButtons = ref(false)
+  const showDeleteConfirmation = ref(false)
 
-  function deletePostFromFeed() {
-    deletePost(props.id).then(isDeleted => {
-      if (isDeleted) {
-        emit('postDeleted')
-      }
-      else {
-        alert('Something went wrong on post deletion!')
-      }
-    })
+  function handleDeletion() {
+    showDeleteConfirmation.value = false
+    emit('postDeleted')
+  }
+
+  function handleDeletionCancel() {
+    showDeleteConfirmation.value = false
   }
 </script>
 
@@ -27,13 +26,18 @@
       <div class="post-buttons" v-if="user_id == getUserIdCookie()">
         <div v-show="showButtons">
           <button class="edit-button">Edit</button>
-          <button class="delete-button" @click="deletePostFromFeed">X</button>
+          <button class="delete-button" @click="showDeleteConfirmation=true">X</button>
         </div>
         <button @click="showButtons = !showButtons"> ... </button>
       </div>
     </div>
     <p class="post-text">{{ text }}</p>
   </div>
+  <DeleteConfirmation v-if="showDeleteConfirmation" 
+    :id="id"
+    @post-deleted="handleDeletion"
+    @deletion-canceled="handleDeletionCancel"
+  />
 </template>
 
 <style scoped>
@@ -57,7 +61,7 @@
   }
 
   .delete-button {
-    background-color: rgba(185, 148, 112, 0.649);
+    background-color: var(--alert-color);
   }
 
   .post-text {
