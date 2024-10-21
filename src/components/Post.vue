@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue';
   import { getUserIdCookie } from '@/common/Helpers';
-  import DeleteConfirmation from '@/components/DeleteConfirmation.vue'
+  import PostDeleteConfirmation from '@/components/PostDeleteConfirmation.vue'
 
   const props = defineProps(['title', 'text', 'user_id', 'id'])
   const emit = defineEmits(['postDeleted'])
@@ -33,7 +33,7 @@
     </div>
     <p class="post-text">{{ text }}</p>
   </div>
-  <DeleteConfirmation v-if="showDeleteConfirmation" 
+  <PostDeleteConfirmation v-if="showDeleteConfirmation" 
     :id="id"
     @post-deleted="handleDeletion"
     @deletion-canceled="handleDeletionCancel"
