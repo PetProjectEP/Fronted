@@ -62,6 +62,10 @@
     margin: auto;
   }
 
+  button {
+    font-size: 20px;
+  }
+
   .delete-button {
     background-color: var(--alert-color);
   }

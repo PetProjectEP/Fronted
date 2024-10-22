@@ -50,6 +50,29 @@ export async function deletePost(postId) {
   return response.status === 204
 }
 
+export async function editPost(postId, title, text) {
+  const token = getAuthTokenCookie()
+  console.log(token)
+
+  let url = new URL(postServiceUrl + postId.toString())
+
+  const data = JSON.stringify({
+    title: title,
+    text: text,
+    token: token
+  })
+
+  let response = await fetch(url, 
+  {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: data
+  })
+  
+  return response.status === 200
+}
+
 export async function getNextPosts({fromId = "", token = null}) {
   let url = new URL(getNextPostsUrl + fromId.toString())
   url.search = new URLSearchParams({token: token}).toString()
