@@ -7,6 +7,15 @@
   const form = ref(null)
   const modalWindow = ref(null)
   onMounted(() => modalWindow.value?.scrollIntoView({ behavior: 'smooth' }))
+
+  function create(title, text) {
+    createPost(title, text).then(isCreated => {
+      if (isCreated === false) {
+        alert('Something went wrong...')
+      }
+      router.push('/')
+    })
+  }
 </script>
 
 <template>
@@ -15,7 +24,7 @@
       <div class="content">
         <PostForm ref="form"/>
         <div class="buttons">
-          <button class="submit-button" @click="createPost(form.title, form.text)">Polute!</button>
+          <button class="submit-button" @click="create(form.title, form.text)">Polute!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
         </div>
       </div>

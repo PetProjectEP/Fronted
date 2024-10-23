@@ -6,8 +6,10 @@ const postServiceUrl = urls.postServiceUrl
 const getNextPostsUrl = urls.getNextPostsUrl
 const getPrevPostsUrl = urls.getPrevPostsUrl
   
-export function createPost(title, text) {
+export async function createPost(title, text) {
   const token = getAuthTokenCookie()
+
+  let url = new URL(postServiceUrl)
 
   const data = JSON.stringify({
       title: title,
@@ -15,24 +17,14 @@ export function createPost(title, text) {
       token: token
   })
 
-  fetch(postServiceUrl, {
+  let response = await fetch(url, {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
-  }).then((response) => {
-    if (response.ok) {
-      response.json().then(() => {
-        router.push('/')
-      })
-    }
-    else if (response.status === 422) {
-      // Validations error here
-    }
-    else {
-      console.log("Oooups, something went wrong...")
-    }
   })
+
+  return response.ok
 }
 
 export async function deletePost(postId) {
@@ -52,7 +44,6 @@ export async function deletePost(postId) {
 
 export async function editPost(postId, title, text) {
   const token = getAuthTokenCookie()
-  console.log(token)
 
   let url = new URL(postServiceUrl + postId.toString())
 
