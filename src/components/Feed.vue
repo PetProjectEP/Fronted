@@ -7,9 +7,10 @@
 
   const props = defineProps(['token'])
   
+  // If the array were empty, it would display "No posts" stub every time while actual posts are loading
+  const posts = ref([[]])
   const canGoBack = ref(false)
   const canGoNext = ref(false)
-  const posts = ref([])
 
   getNextPosts({token: props.token}).then((data) => {
     posts.value = data.posts
