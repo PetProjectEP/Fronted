@@ -49,6 +49,7 @@
 </script>
 
 <template>
+  
   <div class="feed-wrapper">
     <div class="posts-grid">
       <Post v-if="posts.length > 0" v-for="(post) in posts" 
@@ -61,20 +62,33 @@
       />
       <img v-else src="@/assets/images/no-posts.png"/>
     </div>
-    <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
-    <button class="create-post-button" @click="router.push('/create-post')">Share your wisdom</button>
+    <div class="feed-footer">
+      <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
+      <button class="create-post-button" @click="router.push('/create-post')">Share your wisdom</button>
+    </div>
+    
   </div>
 </template>
 
 <style scoped>
   .feed-wrapper {
-    margin: 2% 5%;
+    margin: 2% 10%;
+    height: 80vh;
+    display: grid;
+    grid-template-rows: 4fr 1fr;
+    grid-template-areas:
+      "posts"
+      "footer";
   }
 
   .posts-grid {
+    grid-area: posts;
     display: block;
-    max-height: 70vh;
     overflow-y: scroll;
+  }
+
+  .feed-footer {
+    grid-area: footer;
   }
 
   .posts-grid::-webkit-scrollbar {
