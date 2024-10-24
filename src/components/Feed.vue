@@ -64,7 +64,7 @@
     </div>
     <div class="feed-footer">
       <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
-      <button class="create-post-button" @click="router.push('/create-post')">Share your wisdom</button>
+      <button class="create-post-button good-button" @click="router.push('/create-post')">Share your wisdom</button>
     </div>
     
   </div>
@@ -98,11 +98,8 @@
   .create-post-button {
     margin-top: 10px;
     float: right;
-    height: 3em;
-    padding: 1em;
-    background-color: var(--confirm-color);
     border: none;
-    border-radius: 15%;
+    font-size: 16px;
   }
 
   img {

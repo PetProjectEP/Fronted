@@ -4,6 +4,10 @@
   --alert-color: rgba(185, 148, 112, 0.649);
 }
 
+.transparent {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 a {
   font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
@@ -11,9 +15,23 @@ a {
 
 button {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
-  border-radius: 20%;
+  font-size: 32px;
+  height: 3em;
+  padding: 10px;
+  border-radius: 10%;
   border-color: rgba(0, 0, 0, 0.2);
+}
+
+.bad-button {
+  background-color: var(--alert-color);
+}
+
+.good-button {
+  background-color: var(--confirm-color);
+}
+
+.cancel-button {
+  background-color: rgba(0, 0, 0, 0);
 }
 
 button:hover {
@@ -29,6 +47,8 @@ body {
 
 .modal-overlay {
   position: absolute;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -38,6 +58,49 @@ body {
   justify-content: center;
 }
 
-.transparent {
-  background-color: rgba(0, 0, 0, 0);
+.modal-window {
+  border-radius: 1%;
+  max-width: fit-content;
+  max-height: fit-content;
+  background-color: rgb(254, 250, 224);
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-buttons {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 5%;
+}
+
+.inputs {
+  width: 50vw;
+  text-align: center;
+  margin: auto;
+}
+
+input {
+  font-size: 24px;
+  border-radius: 5px;
+  border-color: rgba(0, 0, 0, 0.2);
+  width: 70%;
+  height: 2em;
+  margin: 1.5em 0 0 0;
+  padding: 1px 10px;
+}
+
+textarea {
+  font-size: 24px;
+  border-radius: 5px;
+  border-color: rgba(0, 0, 0, 0.2);
+  width: 70%;
+  height: 10em;
+  margin: 1.5em 0 0 0;
+  padding: 1px 10px;
+  resize: none;
 }

@@ -18,6 +18,7 @@
   }
 
   button {
+    font-size: 20px;
     margin: auto 10px;
     height: 3em;
     padding: 1em;

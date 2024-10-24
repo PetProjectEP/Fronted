@@ -20,7 +20,7 @@
       </div>
       <UserBar v-if="isLoggedIn()" />
       <div class="user-area" v-else>
-        <button class="sign-in-button" @click="router.push('/sign-in')">Sign in</button>
+        <button class="good-button" @click="router.push('/sign-in')">Sign in</button>
         <button class="sign-up-button transparent" @click="router.push('/sign-up')">Sign up</button>
       </div>
     </div>
@@ -63,10 +63,7 @@
     margin: 0px 10px;
     height: 3em;
     padding: 1em;
-  }
-
-  .sign-in-button {   
-    background-color: var(--confirm-color);
+    font-size: 16px;
   }
 
   .sign-up-button {
