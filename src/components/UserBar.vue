@@ -20,10 +20,12 @@
   }
 
   .log-out-button { 
-    border: none;
-    padding: 1em;
     background-color: var(--main-bg-color);
-    height: max-content;
+    border: none;
+    margin: 0px 10px;
+    height: 3em;
+    padding: 1em;
+    font-size: 16px;
     align-self: center;
   }
 

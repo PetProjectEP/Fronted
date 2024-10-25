@@ -5,3 +5,7 @@ export function getAuthTokenCookie() {
 export function getUserIdCookie() {
   return (document.cookie.match(/^(?:.*;)?\s*User_id\s*=\s*([^;]+)(?:.*)?$/)||[,null])[1]
 }
+
+export function isLoggedIn() {
+  return document.cookie.indexOf('Token=') == -1 ? false : true
+}

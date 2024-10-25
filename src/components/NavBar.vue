@@ -1,10 +1,7 @@
 <script setup>
   import router from '@/router';
   import UserBar from './UserBar.vue';
-
-  function isLoggedIn() {
-    return document.cookie.indexOf('Token=') == -1 ? false : true
-  }
+  import { isLoggedIn } from '@/common/Helpers';
 </script>
 
 <template>
@@ -21,7 +18,7 @@
       <UserBar v-if="isLoggedIn()" />
       <div class="user-area" v-else>
         <button class="good-button" @click="router.push('/sign-in')">Sign in</button>
-        <button class="sign-up-button transparent" @click="router.push('/sign-up')">Sign up</button>
+        <button class="sign-up-button" @click="router.push('/sign-up')">Sign up</button>
       </div>
     </div>
   </header>

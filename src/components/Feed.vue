@@ -3,6 +3,7 @@
   import router from '@/router'
   import Post from '@/components/Post.vue';
   import Pagination from '@/components/Pagination.vue';
+  import { isLoggedIn } from '@/common/Helpers';
   import { getPrevPosts, getNextPosts } from '@/common/BackendCalls/PostServiceCalls';
 
   const props = defineProps(['token'])
@@ -64,7 +65,7 @@
     </div>
     <div class="feed-footer">
       <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
-      <button class="create-post-button good-button" @click="router.push('/create-post')">Share your wisdom</button>
+      <button v-if="isLoggedIn()" class="create-post-button good-button" @click="router.push('/create-post')">Share your wisdom</button>
     </div>
     
   </div>
