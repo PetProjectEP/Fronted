@@ -18,12 +18,22 @@
     canGoNext.value = data.haveMore
   })
 
-  function refresh() {
-    let newestPostId = posts.value[0].id
-    getNextPosts({fromId: newestPostId, token: props.token}).then((data) => {
-      posts.value = data.posts
-      canGoNext.value = data.haveMore
-    })
+  function handleDeletion(deletedPostId) {
+    // If it was the last post
+    if (posts.value.length === 1) {
+      getPrevPosts({fromId: deletedPostId + 1, token: props.token}).then((data) => {
+        posts.value = data.posts
+
+        canGoBack.value = data.haveMore
+        canGoNext.value = false
+      })
+    }
+    else {
+      getNextPosts({fromId: posts.value[0].id, token: props.token}).then((data) => {
+        posts.value = data.posts
+        canGoNext.value = data.haveMore
+      })
+    }
   }
 
   function goNext() {
@@ -57,7 +67,7 @@
         :user_id="post.user_id" 
         :id="post.id" 
         :key="post.id"
-        @post-deleted="refresh"
+        @post-deleted="handleDeletion"
       />
       <img v-else src="@/assets/images/no-posts.png"/>
     </div>
