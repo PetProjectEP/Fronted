@@ -22,8 +22,6 @@
     let newestPostId = posts.value[0].id
     getNextPosts({fromId: newestPostId, token: props.token}).then((data) => {
       posts.value = data.posts
-
-      canGoBack.value = true
       canGoNext.value = data.haveMore
     })
   }
