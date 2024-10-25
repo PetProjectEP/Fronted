@@ -18,6 +18,7 @@ export function logOut() {
     if (response.ok) {
       response.json().then((json) => {
         document.cookie = 'Token=; Max-Age=0'
+        document.cookie = 'User_id=; Max-Age=0'
         window.location.reload()
       })
     }
