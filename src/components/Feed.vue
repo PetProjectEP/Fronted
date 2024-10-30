@@ -4,55 +4,51 @@
   import Post from '@/components/Post.vue';
   import Pagination from '@/components/Pagination.vue';
   import { isLoggedIn } from '@/common/Helpers';
-  import { getPrevPosts, getNextPosts } from '@/common/BackendCalls/PostServiceCalls';
+  import { getPostsList } from '@/common/BackendCalls/PostServiceCalls';
 
   const props = defineProps(['token'])
   
   // If the array were empty, it would display "No posts" stub every time while actual posts are loading
   const posts = ref([[]])
-  const canGoBack = ref(false)
-  const canGoNext = ref(false)
+  const backPageId = ref(null)
+  const nextPageId = ref(null)
 
-  getNextPosts({token: props.token}).then((data) => {
+  getPostsList({ token: props.token }).then((data) => {
     posts.value = data.posts
-    canGoNext.value = data.haveMore
+    nextPageId.value = data.nextPageId
   })
 
   function handleDeletion(deletedPostId) {
     // If it was the last post
     if (posts.value.length === 1) {
-      getPrevPosts({fromId: deletedPostId + 1, token: props.token}).then((data) => {
+      getPostsList({ startingId: backPageId.value, token: props.token }).then((data) => {
         posts.value = data.posts
-
-        canGoBack.value = data.haveMore
-        canGoNext.value = false
+        backPageId.value = data.backPageId
+        nextPageId.value = data.nextPageId
       })
     }
     else {
-      getNextPosts({fromId: posts.value[0].id, token: props.token}).then((data) => {
+      getPostsList({ startingId: posts[0].id, token: props.token }).then((data) => {
         posts.value = data.posts
-        canGoNext.value = data.haveMore
+        backPageId.value = data.backPageId
+        nextPageId.value = data.nextPageId
       })
     }
   }
 
   function goNext() {
-    let oldestPostId = posts.value[posts.value.length - 1].id
-    getNextPosts({fromId: oldestPostId - 1, token: props.token}).then((data) => {
+    getPostsList({ startingId: nextPageId.value, token: props.token }).then((data) => {
       posts.value = data.posts
-
-      canGoBack.value = true
-      canGoNext.value = data.haveMore
+      backPageId.value = data.backPageId
+      nextPageId.value = data.nextPageId
     })
   }
 
   function goBack() {
-    let newestPostId = posts.value[0].id
-    getPrevPosts({fromId: newestPostId + 1, token: props.token}).then((data) => {
+    getPostsList({ startingId: backPageId.value, token: props.token }).then((data) => {
       posts.value = data.posts
-
-      canGoBack.value = data.haveMore
-      canGoNext.value = true
+      backPageId.value = data.backPageId
+      nextPageId.value = data.nextPageId
     })
   }
 </script>
@@ -72,7 +68,7 @@
       <img v-else src="@/assets/images/no-posts.png"/>
     </div>
     <div class="feed-footer">
-      <Pagination :can-go-back="canGoBack" :can-go-next="canGoNext" @go-back="goBack" @go-next="goNext"/>
+      <Pagination :can-go-back="backPageId !== null" :can-go-next="nextPageId !== null" @go-back="goBack" @go-next="goNext"/>
       <button v-if="isLoggedIn()" class="create-post-button good-button" @click="router.push('/create-post')">Share your wisdom</button>
     </div>
     

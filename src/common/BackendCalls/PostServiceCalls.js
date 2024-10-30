@@ -3,6 +3,7 @@ import urls from "@/common/BackendCalls/urls";
 import { getAuthTokenCookie } from '@/common/Helpers';
 
 const postServiceUrl = urls.postServiceUrl
+const getPostsListUrl = urls.getPostsListUrl
 const getNextPostsUrl = urls.getNextPostsUrl
 const getPrevPostsUrl = urls.getPrevPostsUrl
   
@@ -39,7 +40,7 @@ export async function deletePost(postId) {
     mode: 'cors'
   })
   
-  return response.status === 204
+  return response.status === 200
 }
 
 export async function editPost(postId, title, text) {
@@ -64,9 +65,19 @@ export async function editPost(postId, title, text) {
   return response.status === 200
 }
 
-export async function getNextPosts({fromId = "", token = null}) {
-  let url = new URL(getNextPostsUrl + fromId.toString())
-  url.search = new URLSearchParams({token: token}).toString()
+export async function getPostsList({ startingId = null, limit = 5, token = null }) {
+  let url = new URL(getPostsListUrl)
+
+  let params = new URLSearchParams({
+    limit: limit,
+    token: token
+  })
+
+  if (startingId !== null) {
+    params.append("starting_id", startingId)
+  }
+
+  url.search = params.toString()
 
   let response = await fetch(url, 
   {
@@ -75,23 +86,14 @@ export async function getNextPosts({fromId = "", token = null}) {
   })
 
   let data = await response.json()
+
   let posts = JSON.parse(data.posts)
+  let backPageId = data.newer_page_id === "nil" ? null : data.newer_page_id
+  let nextPageId = data.older_page_id === "nil" ? null : data.older_page_id
 
-  return { posts: posts, haveMore: data.haveMore }
-}
-
-export async function getPrevPosts({fromId, token = null}) {
-  let url = new URL(getPrevPostsUrl + fromId.toString())
-  url.search = new URLSearchParams({token: token}).toString()
-
-  let response = await fetch(url, 
-  {
-    method: 'GET',
-    mode: 'cors'
-  })
-
-  let data = await response.json()
-  let posts = JSON.parse(data.posts)
-
-  return { posts: posts, haveMore: data.haveMore }
+  return { 
+    posts: posts,
+    backPageId: backPageId,
+    nextPageId: nextPageId
+  }
 }
