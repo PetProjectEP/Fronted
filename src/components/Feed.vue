@@ -13,43 +13,34 @@
   const backPageId = ref(null)
   const nextPageId = ref(null)
 
-  getPostsList({ token: props.token }).then((data) => {
+  getPostsList({ token: props.token }).then((data) => updateFeed(data))
+
+  function updateFeed(data) {
     posts.value = data.posts
+    backPageId.value = data.backPageId
     nextPageId.value = data.nextPageId
-  })
+  }
 
   function handleDeletion(deletedPostId) {
     // If it was the last post
     if (posts.value.length === 1) {
-      getPostsList({ startingId: backPageId.value, token: props.token }).then((data) => {
-        posts.value = data.posts
-        backPageId.value = data.backPageId
-        nextPageId.value = data.nextPageId
-      })
+      getPostsList({ startingId: backPageId.value, token: props.token })
+        .then((data) => updateFeed(data))
     }
     else {
-      getPostsList({ startingId: posts[0].id, token: props.token }).then((data) => {
-        posts.value = data.posts
-        backPageId.value = data.backPageId
-        nextPageId.value = data.nextPageId
-      })
+      getPostsList({ startingId: posts.value[0].id, token: props.token })
+        .then((data) => updateFeed(data))
     }
   }
 
   function goNext() {
-    getPostsList({ startingId: nextPageId.value, token: props.token }).then((data) => {
-      posts.value = data.posts
-      backPageId.value = data.backPageId
-      nextPageId.value = data.nextPageId
-    })
+    getPostsList({ startingId: nextPageId.value, token: props.token })
+      .then((data) => updateFeed(data))
   }
 
   function goBack() {
-    getPostsList({ startingId: backPageId.value, token: props.token }).then((data) => {
-      posts.value = data.posts
-      backPageId.value = data.backPageId
-      nextPageId.value = data.nextPageId
-    })
+    getPostsList({ startingId: backPageId.value, token: props.token })
+      .then((data) => updateFeed(data))
   }
 </script>
 
