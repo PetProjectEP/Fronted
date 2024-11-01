@@ -1,7 +1,7 @@
 <script setup>
   import router from '@/router'
   import { ref, onMounted } from 'vue'
-  import { signUp } from '@/common/BackendCalls/UserServiceCalls';
+  import { signUp, signIn } from '@/common/BackendCalls/UserServiceCalls';
 
   const nickname = ref("")
   const name = ref("")
@@ -11,6 +11,24 @@
 
   const signUpWindow = ref(null)
   onMounted(() => signUpWindow.value?.scrollIntoView({ behavior: 'smooth' }))
+
+  function handleSignUp() {
+    signUp(
+      nickname.value,
+      name.value,
+      surname.value,
+      password.value,
+      passwordConfirmation.value
+    ).then((status) => {
+      if (status === true) {
+        router.push('/').then(() => { window.location.reload() })
+      }
+      else {
+        alert(status)
+      }
+    })
+
+  }
 </script>
 
 <template>
@@ -24,7 +42,7 @@
           <input type="password" v-model="passwordConfirmation" placeholder="Confirm your password..."/>
         </div>
         <div class="modal-buttons">
-          <button class="good-button" @click="signUp(nickname, name, surname, password, passwordConfirmation)">Sign up!</button>
+          <button class="good-button" @click="handleSignUp()">Sign up!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
       </div>
     </div>

@@ -9,3 +9,14 @@ export function getUserIdCookie() {
 export function isLoggedIn() {
   return document.cookie.indexOf('Token=') == -1 ? false : true
 }
+
+export function getErrors(response) {
+  let errStr = ""
+  Object.values(response).forEach(arrOfErrors => {
+    arrOfErrors.forEach(val => {
+      errStr += val + "\n"
+    })
+  })
+
+  return errStr
+}

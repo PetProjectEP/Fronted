@@ -8,6 +8,17 @@
 
   const signInWindow = ref(null)
   onMounted(() => signInWindow.value?.scrollIntoView({ behavior: 'smooth' }))
+
+  function handleSignIn() {
+    signIn(nickname.value, password.value).then((isSuccessful) => {
+      if (isSuccessful) {
+        router.push('/').then(() => { window.location.reload() })
+      }
+      else {
+        alert("There is no such user. Check your login and password")
+      }
+    })
+  }
 </script>
 
 <template>
@@ -18,7 +29,7 @@
           <input type="password" v-model="password" placeholder="Password..."/>
         </div>
         <div class="modal-buttons">
-          <button class="good-button" @click="signIn(nickname, password)">Sign in!</button>
+          <button class="good-button" @click="handleSignIn()">Sign in!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import router from '@/router';
 import urls from "@/common/BackendCalls/urls";
 import { getAuthTokenCookie } from '@/common/Helpers';
+import { getErrors } from '@/common/Helpers';
 
 const userServiceUrl = urls.userServiceUrl
 const userServiceSessionsUrl = urls.userServiceSessionsUrl
@@ -8,34 +9,28 @@ const userServiceSessionsUrl = urls.userServiceSessionsUrl
 // Yeah-yeah refreshing entire window is a crutch and low-effective
 // but it isn't that frequent operation to screw performance hard
 
-export function logOut() {
+export async function logOut() {
   const token = getAuthTokenCookie()
 
-  fetch(userServiceSessionsUrl + token, {
+  let response = await fetch(userServiceSessionsUrl + token, {
     method: 'DELETE',
     mode: 'cors'
-  }).then((response) => {
-    if (response.ok) {
-      response.json().then((json) => {
-        document.cookie = 'Token=; Max-Age=0'
-        document.cookie = 'User_id=; Max-Age=0'
-        window.location.reload()
-      })
-    }
-    else if (response.status === 422) {
-      alert('Wrong session to destroy')
-    }
-    else {
-      console.log('Oooups, something went wrong...')
-    }
   })
+
+  if (response.ok) {
+    document.cookie = 'Token=; Max-Age=0'
+    document.cookie = 'User_id=; Max-Age=0'
+    return true
+  }
+  else {
+    return false
+  }
 }
 
 export async function getUserByToken() {
   const token = getAuthTokenCookie()
 
-  let response = await fetch(userServiceSessionsUrl + token, 
-  {
+  let response = await fetch(userServiceSessionsUrl + token, {
     method: 'GET',
     mode: 'cors'
   })
@@ -44,7 +39,7 @@ export async function getUserByToken() {
   return user
 }
 
-export function signIn(nickname, password) {
+export async function signIn(nickname, password) {
   const data = JSON.stringify({
     user: {
       nickname: nickname,
@@ -52,31 +47,29 @@ export function signIn(nickname, password) {
     }
   })
 
-  fetch(userServiceSessionsUrl, {
+  let response = await fetch(userServiceSessionsUrl, {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
-  }).then((response) => {
-    if (response.ok) {
-      response.json().then((json) => {
-        document.cookie =
-        "Token=" + json.token + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
-        document.cookie =
-        "User_id=" + json.user_id + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
-        router.push('/').then(() => { window.location.reload() })
-      })
-    }
-    else if (response.status === 422) {
-      alert("There is no such user. Check your login and password")
-    }
-    else {
-      console.log("Oooups, something went wrong...")
-    }
   })
+
+  if (response.ok) {
+    let json = await response.json()
+
+    document.cookie =
+    "Token=" + json.token + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
+    document.cookie =
+    "User_id=" + json.user_id + ";expires=" + new Date(json.expires_at).toUTCString() + ";path=/"
+
+    return true
+  }
+  else {
+    return false
+  }
 }
 
-export function signUp(nickname, name, surname, password, passwordConfirmation) {
+export async function signUp(nickname, name, surname, password, passwordConfirmation) {
   const data = JSON.stringify({
     user: {
       nickname: nickname,
@@ -87,28 +80,19 @@ export function signUp(nickname, name, surname, password, passwordConfirmation) 
     }
   })
 
-  fetch(userServiceUrl, {
+  let response = await fetch(userServiceUrl, {
     method: 'POST',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
-  }).then((response) => {
-    if (response.ok) {
-      signIn(nickname, password)
-    }
-    else if (response.status === 422) {
-      response.json().then((parsedErrors) => {
-        let errStr = ""
-        Object.values(parsedErrors).forEach(arrOfErrors => {
-          arrOfErrors.forEach(val => {
-            errStr += val + "\n"
-          })
-        });
-        alert("Following errors prevent you from signing up:\n" + errStr)
-      })
-    }
-    else {
-      console.log("Oooups, something went wrong...")
-    }
   })
+
+  if (response.ok) {
+    return signIn(nickname, password)
+  }
+  else {
+    let parsedErrors = await response.json()
+    let errStr = getErrors(parsedErrors)
+    return errStr
+  }
 }

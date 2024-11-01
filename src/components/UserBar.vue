@@ -4,12 +4,23 @@
 
   const name = ref("")
   getUserByToken().then((user) => name.value = user.name)
+
+  function logOutHandler() {
+    logOut().then((isSuccessful) => {
+      if (isSuccessful) {
+        window.location.reload()
+      }
+      else {
+        console.log('Oooups, something went wrong...')
+      }
+    })
+  }
 </script>
 
 <template>
   <div class="user-bar-container">
     <h2 class="name">{{ name }}</h2>
-    <button class="log-out-button transparent" @click="logOut()">Log out</button>
+    <button class="log-out-button transparent" @click="logOutHandler()">Log out</button>
   </div>
 </template>
 
