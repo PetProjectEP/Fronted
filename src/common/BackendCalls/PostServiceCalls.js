@@ -1,6 +1,6 @@
 import router from '@/router';
 import urls from "@/common/BackendCalls/urls";
-import { getAuthTokenCookie } from '@/common/Helpers';
+import { getAuthTokenCookie, getErrors } from '@/common/Helpers';
 
 const postServiceUrl = urls.postServiceUrl
 const getPostsListUrl = urls.getPostsListUrl
@@ -25,7 +25,13 @@ export async function createPost(title, text) {
     body: data
   })
 
-  return response.ok
+  if (response.ok) {
+    return { isSuccess: true, errStr: "" }
+  }
+  else {
+    let json = await response.json()
+    return { isSuccess: false, errStr: getErrors(json) }
+  }
 }
 
 export async function deletePost(postId) {
@@ -34,13 +40,18 @@ export async function deletePost(postId) {
   let url = new URL(postServiceUrl + postId.toString())
   url.search = new URLSearchParams({token: token}).toString()
 
-  let response = await fetch(url, 
-  {
+  let response = await fetch(url, {
     method: 'DELETE',
     mode: 'cors'
   })
   
-  return response.status === 200
+  if (response.ok) {
+    return { isSuccess: true, errStr: "" }
+  }
+  else {
+    let json = await response.json()
+    return { isSuccess: false, errStr: getErrors(json) }
+  }
 }
 
 export async function editPost(postId, title, text) {
@@ -54,15 +65,20 @@ export async function editPost(postId, title, text) {
     token: token
   })
 
-  let response = await fetch(url, 
-  {
+  let response = await fetch(url, {
     method: 'PATCH',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
   })
   
-  return response.status === 200
+  if (response.ok) {
+    return { isSuccess: true, errStr: "" }
+  }
+  else {
+    let json = await response.json()
+    return { isSuccess: false, errStr: getErrors(json) }
+  }
 }
 
 export async function getPostsList({ startingId = null, limit = 5, token = null }) {

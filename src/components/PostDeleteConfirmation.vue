@@ -6,11 +6,12 @@
   const emit = defineEmits(['postDeleted', 'deletionCanceled'])
 
   function deletePostFromFeed() {
-    deletePost(props.id).then(isDeleted => {
-      if (isDeleted) {
+    deletePost(props.id).then(result => {
+      if (result.isSuccess) {
         emit('postDeleted')
       }
       else {
+        alert(result.errStr)
         emit('deletionCanceled')
       }
     })

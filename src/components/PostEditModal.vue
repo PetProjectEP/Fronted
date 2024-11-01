@@ -8,11 +8,12 @@
   const emit = defineEmits(['postEdited', 'editionCanceled'])
 
   function edit() {
-    editPost(props.id, form.value.title, form.value.text).then(isEdited => {
-      if (isEdited) {
+    editPost(props.id, form.value.title, form.value.text).then(result => {
+      if (result.isSuccess) {
         emit('postEdited', form.value.title, form.value.text)
       }
       else {
+        alert(result.errStr)
         emit('editionCanceled')
       }
     })

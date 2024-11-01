@@ -9,9 +9,9 @@
   onMounted(() => modalWindow.value?.scrollIntoView({ behavior: 'smooth' }))
 
   function create(title, text) {
-    createPost(title, text).then(isCreated => {
-      if (isCreated === false) {
-        alert('Something went wrong...')
+    createPost(title, text).then(result => {
+      if (result.isSuccess === false) {
+        alert(result.errStr)
       }
       router.push('/')
     })
