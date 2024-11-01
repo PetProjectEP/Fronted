@@ -19,12 +19,12 @@
       surname.value,
       password.value,
       passwordConfirmation.value
-    ).then((status) => {
-      if (status === true) {
+    ).then((result) => {
+      if (result.status === true) {
         router.push('/').then(() => { window.location.reload() })
       }
       else {
-        alert(status)
+        alert(result.errStr)
       }
     })
 

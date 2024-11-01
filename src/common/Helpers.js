@@ -10,9 +10,9 @@ export function isLoggedIn() {
   return document.cookie.indexOf('Token=') == -1 ? false : true
 }
 
-export function getErrors(response) {
+export function getErrors(errObj) {
   let errStr = ""
-  Object.values(response).forEach(arrOfErrors => {
+  Object.values(errObj).forEach(arrOfErrors => {
     arrOfErrors.forEach(val => {
       errStr += val + "\n"
     })

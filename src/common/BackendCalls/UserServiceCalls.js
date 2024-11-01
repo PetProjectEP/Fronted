@@ -88,11 +88,11 @@ export async function signUp(nickname, name, surname, password, passwordConfirma
   })
 
   if (response.ok) {
-    return signIn(nickname, password)
+    let status = await signIn(nickname, password)
+    return { status: status, errStr: "" }
   }
   else {
-    let parsedErrors = await response.json()
-    let errStr = getErrors(parsedErrors)
-    return errStr
+    let json = await response.json()
+    return { status: false, errStr: getErrors(json)}
   }
 }
