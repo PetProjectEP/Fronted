@@ -37,4 +37,7 @@
 </template>
 
 <style scoped>
+  input {
+    width: 40;
+  }
 </style>
