@@ -1,9 +1,18 @@
 <script setup>
   import { ref, watch} from "vue";
+  import { flushAuthTokens } from "@/common/Helpers";
   import { logOut, getUserByToken } from "@/common/BackendCalls/UserServiceCalls";
 
   const name = ref("")
-  getUserByToken().then((user) => name.value = user.name)
+  getUserByToken().then((user) => {
+    if (user) {
+      name.value = user.name
+    }
+    else {
+      flushAuthTokens()
+      window.location.reload()
+    }
+  })
 
   function logOutHandler() {
     logOut().then((isSuccessful) => {

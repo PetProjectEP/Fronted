@@ -20,3 +20,8 @@ export function getErrors(errObj) {
 
   return errStr
 }
+
+export function flushAuthTokens() {
+  document.cookie = 'Token=; Max-Age=0'
+  ocument.cookie = 'User_id=; Max-Age=0'
+}

@@ -1,6 +1,6 @@
 import router from '@/router';
 import urls from "@/common/BackendCalls/urls";
-import { getAuthTokenCookie } from '@/common/Helpers';
+import { flushAuthTokens, getAuthTokenCookie } from '@/common/Helpers';
 import { getErrors } from '@/common/Helpers';
 
 const userServiceUrl = urls.userServiceUrl
@@ -18,8 +18,7 @@ export async function logOut() {
   })
 
   if (response.ok) {
-    document.cookie = 'Token=; Max-Age=0'
-    document.cookie = 'User_id=; Max-Age=0'
+    flushAuthTokens()
     return true
   }
   else {
@@ -34,9 +33,14 @@ export async function getUserByToken() {
     method: 'GET',
     mode: 'cors'
   })
-  let user = await response.json()
   
-  return user
+  if (response.ok) {
+    let user = await response.json()
+    return user
+  }
+  else {
+    return null
+  }
 }
 
 export async function signIn(nickname, password) {
