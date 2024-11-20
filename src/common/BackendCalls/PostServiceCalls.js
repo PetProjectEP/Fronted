@@ -4,8 +4,6 @@ import { getAuthTokenCookie, getErrors } from '@/common/Helpers';
 
 const postServiceUrl = urls.postServiceUrl
 const getPostsListUrl = urls.getPostsListUrl
-const getNextPostsUrl = urls.getNextPostsUrl
-const getPrevPostsUrl = urls.getPrevPostsUrl
   
 export async function createPost(title, text) {
   const token = getAuthTokenCookie()

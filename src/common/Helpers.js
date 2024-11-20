@@ -23,5 +23,5 @@ export function getErrors(errObj) {
 
 export function flushAuthTokens() {
   document.cookie = 'Token=; Max-Age=0'
-  ocument.cookie = 'User_id=; Max-Age=0'
+  document.cookie = 'User_id=; Max-Age=0'
 }
