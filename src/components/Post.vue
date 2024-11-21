@@ -57,6 +57,8 @@
   />
   <PostEditModal v-if="showEditModal"
     :id="id"
+    :original-title="title"
+    :original-text="text"
     @post-edited="handleEdition"
     @edition-canceled="handleEditionCancel"
   />

@@ -21,7 +21,7 @@
 <template>
   <div class="modal-overlay">
     <div class="modal-window" ref="modalWindow">
-        <PostForm ref="form"/>
+        <PostForm ref="form" />
         <div class="modal-buttons">
           <button class="good-button" @click="create(form.title, form.text)">Polute!</button>
           <button class="cancel-button" @click="router.push('/')">Cancel</button>

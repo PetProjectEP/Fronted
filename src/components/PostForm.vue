@@ -1,8 +1,10 @@
 <script setup>
   import { ref } from 'vue';
 
-  const title = ref("")
-  const text = ref("")
+  const props = defineProps(['originalTitle', 'originalText'])
+
+  const title = ref(props.originalTitle)
+  const text = ref(props.originalText)
   defineExpose({title, text})
 </script>
 

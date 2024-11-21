@@ -4,7 +4,7 @@
   import { editPost } from '@/common/BackendCalls/PostServiceCalls';
 
   const form = ref(null)
-  const props = defineProps(['id'])
+  const props = defineProps(['id', 'originalTitle', 'originalText'])
   const emit = defineEmits(['postEdited', 'editionCanceled'])
 
   function edit() {
@@ -24,7 +24,10 @@
   <Teleport to="body">
     <div class="modal-overlay">
       <div class="modal-window">
-        <PostForm ref="form" />
+        <PostForm ref="form" 
+          :original-title="props.originalTitle"
+          :original-text="props.originalText"
+        />
         <div class="modal-buttons">
           <button class="good-button" @click="edit">Edit</button>
           <button class="cancel-button" @click="emit('editionCanceled')">Cancel</button>
