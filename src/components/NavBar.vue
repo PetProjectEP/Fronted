@@ -12,7 +12,7 @@
         <h1 class="title"> Thoughts junkyard </h1>
         <div class="options">
           <a class="to-feed-link nostyle" @click="router.push('/')">Feed</a>
-          <a class="to-my-posts-link nostyle" @click="router.push('/my-posts')">My posts</a>
+          <a v-show="isLoggedIn()" class="to-my-posts-link nostyle" @click="router.push('/my-posts')">My posts</a>
         </div>
       </div>
       <UserBar v-if="isLoggedIn()" />
