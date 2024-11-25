@@ -6,15 +6,11 @@ import { getErrors } from '@/common/Helpers';
 const userServiceUrl = urls.userServiceUrl
 const userServiceSessionsUrl = urls.userServiceSessionsUrl
 
-// Yeah-yeah refreshing entire window is a crutch and low-effective
-// but it isn't that frequent operation to screw performance hard
-
 export async function logOut() {
   const token = getAuthTokenCookie()
 
   let response = await fetch(userServiceSessionsUrl + token, {
-    method: 'DELETE',
-    mode: 'cors'
+    method: 'DELETE'
   })
 
   if (response.ok) {
@@ -30,8 +26,7 @@ export async function getUserByToken() {
   const token = getAuthTokenCookie()
 
   let response = await fetch(userServiceSessionsUrl + token, {
-    method: 'GET',
-    mode: 'cors'
+    method: 'GET'
   })
   
   if (response.ok) {
@@ -53,7 +48,6 @@ export async function signIn(nickname, password) {
 
   let response = await fetch(userServiceSessionsUrl, {
     method: 'POST',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
   })
@@ -86,7 +80,6 @@ export async function signUp(nickname, name, surname, password, passwordConfirma
 
   let response = await fetch(userServiceUrl, {
     method: 'POST',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
   })

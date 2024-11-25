@@ -18,7 +18,6 @@ export async function createPost(title, text) {
 
   let response = await fetch(url, {
     method: 'POST',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
   })
@@ -39,8 +38,7 @@ export async function deletePost(postId) {
   url.search = new URLSearchParams({token: token}).toString()
 
   let response = await fetch(url, {
-    method: 'DELETE',
-    mode: 'cors'
+    method: 'DELETE'
   })
   
   if (response.ok) {
@@ -65,7 +63,6 @@ export async function editPost(postId, title, text) {
 
   let response = await fetch(url, {
     method: 'PATCH',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
     body: data
   })
@@ -95,8 +92,7 @@ export async function getPostsList({ startingId = null, limit = 5, token = null 
 
   let response = await fetch(url, 
   {
-    method: 'GET',
-    mode: 'cors'
+    method: 'GET'
   })
 
   let data = await response.json()
