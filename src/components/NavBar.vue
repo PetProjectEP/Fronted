@@ -40,7 +40,7 @@
   }
 
   .options > a {
-    font: 1.25em sans-serif;
+    font-size: 1.25em;
     margin: auto 15px auto 0;
     cursor: pointer;
   }
@@ -68,7 +68,8 @@
   }
 
   .title {
-    font: bold 1.25em sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
   }
 
   .title-area {

@@ -52,6 +52,7 @@
 
   .name {
     padding: 1em;
-    font: bold 1em sans-serif;
+    font-size: 1em;
+    font-weight: bold;
   }
 </style>
