@@ -1,5 +1,6 @@
 <script setup>
   import { ref, watch} from "vue";
+  import router from '@/router';
   import { flushAuthTokens } from "@/common/Helpers";
   import { logOut, getUserByToken } from "@/common/BackendCalls/UserServiceCalls";
 
@@ -17,7 +18,7 @@
   function logOutHandler() {
     logOut().then((isSuccessful) => {
       if (isSuccessful) {
-        window.location.reload()
+        router.push('/').then(() => { window.location.reload() })
       }
       else {
         console.log('Oooups, something went wrong...')
