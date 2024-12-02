@@ -41,11 +41,11 @@
     <div class="post-head">
       <h2 class="post-title">{{ displayedTitle }}</h2>
       <div class="post-buttons" v-if="user_id == getUserIdCookie()">
-        <div v-show="showButtons">
-          <button class="edit-button" @click="showEditModal=true">Edit</button>
-          <button class="delete-button" @click="showDeleteConfirmation=true">X</button>
+        <div class="hidden-buttons" v-show="showButtons">
+          <button class="edit-button" @click="showEditModal=true"><span>Edit</span></button>
+          <button class="delete-button" @click="showDeleteConfirmation=true"><span>X</span></button>
         </div>
-        <button @click="showButtons = !showButtons"> ... </button>
+        <button @click="showButtons = !showButtons"><span>...</span></button>
       </div>
     </div>
     <p class="post-text">{{ displayedText }}</p>
@@ -66,13 +66,22 @@
 
 <style scoped>
   .post-wrapper {
+    font-size: 16px;
+    letter-spacing: normal;
+    margin-bottom: 2%;
     border-bottom: 1px solid;
   }
 
   .post-head {
+    --header-el-height: 1.3em;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .post-title {
+    font-size: var(--header-el-height);
   }
 
   .post-buttons {
@@ -80,8 +89,17 @@
     justify-content: center;
   }
 
+  .hidden-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
   button {
-    font-size: 14px;
+    max-height: var(--header-el-height);
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .delete-button {
@@ -89,6 +107,7 @@
   }
 
   .post-text {
-    font-size: 18px;
+    font-size: 1.2em;
+    margin-bottom: 1%;
   }
 </style>
